@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import static com.example.basicauth.ApplicationUserRole.*;
+
 @Configuration
 @EnableWebSecurity
 public class BasicAuth extends WebSecurityConfigurerAdapter {
@@ -26,6 +28,7 @@ private final PasswordConfig passwordConfig;
               .authorizeRequests()
               .antMatchers("/","index")
               .permitAll()
+              .antMatchers("/api/**").hasRole(STUDENT.name())
               .anyRequest()
               .authenticated()
               .and()
@@ -38,11 +41,26 @@ private final PasswordConfig passwordConfig;
         UserDetails user = User.builder()
                 .username("ahmmuh")
                 .password(passwordConfig.passwordEncoder().encode("password"))
-                .roles("USER")
+                .roles(STUDENT.name())
                 .build();
 
+       UserDetails abdi =   User.builder()
+                .username("abdi")
+                .password(passwordConfig.passwordEncoder().encode("abdi123"))
+                .roles(ADMIN.name())
+                .build();
+
+
+       UserDetails anas = User.builder()
+               .username("anas")
+               .password(passwordConfig.passwordEncoder().encode("anas123"))
+               .roles(STUDENT.name())
+               .build();
+
         return  new InMemoryUserDetailsManager(
-                user
+                user,
+                abdi,
+                anas
         );
     }
 }
