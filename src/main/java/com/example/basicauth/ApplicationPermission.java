@@ -1,11 +1,10 @@
 package com.example.basicauth;
 
 public enum ApplicationPermission {
-    STUDENT_READ("student:read"),
     STUDENT_WRITE("student:write"),
-    COURSE_READ("course:read"),
-    COURSE_WRITE("course:write");
-
+    STUDENT_READ("student:read"),
+    COURSE_WRITE("course:write"),
+    COURSE_READ("course:read");
     private final String permission;
 
     ApplicationPermission(String permission) {
