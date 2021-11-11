@@ -3,6 +3,7 @@ package com.example.basicauth;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -16,6 +17,7 @@ import static com.example.basicauth.ApplicationUserRole.*;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class BasicAuth extends WebSecurityConfigurerAdapter {
 
 private final PasswordConfig passwordConfig;
@@ -32,11 +34,11 @@ private final PasswordConfig passwordConfig;
               .authorizeRequests()
               .antMatchers("/","index")
               .permitAll()
-              .antMatchers("/api/**").hasAnyAuthority(STUDENT.name())
-              .antMatchers(HttpMethod.DELETE).hasAnyAuthority(COURSE_WRITE.getPermissions())
+              .antMatchers("/api/**").hasRole(STUDENT.name())
+         /*     .antMatchers(HttpMethod.DELETE).hasAnyAuthority(COURSE_WRITE.getPermissions())
               .antMatchers(HttpMethod.PUT).hasAnyAuthority(COURSE_WRITE.getPermissions())
               .antMatchers(HttpMethod.POST).hasAnyAuthority(COURSE_WRITE.getPermissions())
-              .antMatchers(HttpMethod.GET).hasAnyAuthority(ADMIN.name(),ADMINTrainee.name())
+              .antMatchers(HttpMethod.GET).hasAnyAuthority(ADMIN.name(),ADMINTrainee.name())*/
 
               .anyRequest()
               .authenticated()
